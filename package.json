@@ -1,0 +1,26 @@
+{
+  "name": "unreal-m-tasks",
+  "version": "0.0.1",
+  "description": "Async tasks for unreal",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shadowmint/unreal-m-tasks.git"
+  },
+  "files": [
+    "index.js",
+    "scripts",
+    "src"
+  ],
+  "author": "douglas.linder@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shadowmint/unreal-m-tasks/issues"
+  },
+  "homepage": "https://github.com/shadowmint/unreal-m-tasks",
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "dependencies": {
+  }
+}
