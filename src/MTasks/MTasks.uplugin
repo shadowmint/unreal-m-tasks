@@ -1,29 +1,29 @@
 {
-	"FileVersion": 3,
-	"Version": 1,
-	"VersionName": "1.0",
-	"FriendlyName": "MTasks",
-	"Description": "",
-	"Category": "Other",
-	"CreatedBy": "",
-	"CreatedByURL": "",
-	"DocsURL": "",
-	"MarketplaceURL": "",
-	"SupportURL": "",
-	"CanContainContent": true,
-	"IsBetaVersion": false,
-	"IsExperimentalVersion": false,
-	"Installed": false,
-	"Modules": [
-		{
-			"Name": "MTasks",
-			"Type": "Runtime",
-			"LoadingPhase": "PreLoadingScreen"
-		},
-		{
-			"Name": "MTasksSample",
-			"Type": "Runtime",
-			"LoadingPhase": "default"
-		}
-	]
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "MTasks",
+  "Description": "",
+  "Category": "Other",
+  "CreatedBy": "",
+  "CreatedByURL": "",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "SupportURL": "",
+  "CanContainContent": true,
+  "IsBetaVersion": false,
+  "IsExperimentalVersion": false,
+  "Installed": false,
+  "Modules": [
+    {
+      "Name": "MTasks",
+      "Type": "Runtime",
+      "LoadingPhase": "PreLoadingScreen"
+    },
+    {
+      "Name": "MTasksSample",
+      "Type": "Editor",
+      "LoadingPhase": "PreLoadingScreen"
+    }
+  ]
 }

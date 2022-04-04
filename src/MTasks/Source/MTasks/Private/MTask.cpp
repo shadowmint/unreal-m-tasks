@@ -9,18 +9,28 @@ EMTaskState UMTask::OnPoll_Implementation(float DeltaTime)
 	return EMTaskState::Resolved;
 }
 
-void UMTask::OnStart_Implementation(UObject* Context, UMTask* Parent)
+void UMTask::OnStart_Implementation(UObject* Context)
 {
 	// Default action; do nothing.
 }
 
-void UMTask::Start(UMTaskExecutor* Executor, UObject* Context, UMTask* Parent)
+void UMTask::Start(UMTaskExecutor* Executor, UObject* Context)
 {
-	Executor->Run(this, Context, Parent);
+	Executor->RunTask(this, Context);
+}
+
+void UMTask::Cancel(UMTaskExecutor* Executor)
+{
+	Executor->CancelTask(this);
 }
 
 UMTask* UMTask::Then(EMTaskState OnState, UMTask* Child)
 {
 	Children.Add(FMTaskChild(OnState, Child));
+	Child->Parent = this;
 	return this;
+}
+
+void UMTask::OnEnd_Implementation()
+{
 }

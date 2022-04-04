@@ -40,7 +40,7 @@ struct MTASKS_API FMTaskChild
 	EMTaskState Type;
 
 	UPROPERTY()
-	UMTask *Child;
+	TWeakObjectPtr<UMTask> Child;
 
 	FMTaskChild()
 	{
@@ -109,8 +109,13 @@ public:
 	FTaskUpdate Update;
 
 	/** The promise state */
+	UPROPERTY(BlueprintReadOnly, Category = "MTasks")
 	EMTaskState State;
 
+	/** The parent of this task, if any */
+	UPROPERTY()
+	TWeakObjectPtr<UMTask> Parent = nullptr;
+	
 	/** Children of this task */
 	TArray<FMTaskChild> Children;
 	
@@ -119,11 +124,35 @@ public:
 	
 	/** Attach this to a specific executor and start running it */
 	UFUNCTION(BlueprintCallable, Category = "MTasks")
-	void Start(UMTaskExecutor* Executor, UObject *Context = nullptr, UMTask *Parent = nullptr);
+	void Start(UMTaskExecutor* Executor, UObject *Context = nullptr);
 
+	/** Abort this task */
+	UFUNCTION(BlueprintCallable, Category = "MTasks")
+	void Cancel(UMTaskExecutor* Executor);
+	
 	/** Add a child task to run when this one is completed */
 	UFUNCTION(BlueprintCallable, Category = "MTasks")
 	UMTask *Then(EMTaskState OnState, UMTask *Child);
+
+	/** Is this task still un-started? ie. Idle or Waiting */
+	UFUNCTION(BlueprintCallable, Category = "MTasks")
+	FORCEINLINE bool IsPending()
+	{
+		return State == EMTaskState::Waiting || State == EMTaskState::Idle;
+	}
+	
+	/** Is this task finished? ie. Rejected or Resolved */
+	UFUNCTION(BlueprintCallable, Category = "MTasks")
+	bool IsCompleted() {
+	return State == EMTaskState::Rejected || State == EMTaskState::Resolved;
+	}
+
+	/** Is this task running? */
+	UFUNCTION(BlueprintCallable, Category = "MTasks")
+	bool IsRunning()
+	{
+		return State == EMTaskState::Running;
+	}
 	
 public:
 	// Abstract API
@@ -133,7 +162,14 @@ public:
 	 * If this task had a parent, the parent is supplied.
 	 **/
 	UFUNCTION(BlueprintNativeEvent, Category = "MTasks")
-	void OnStart(UObject *Context, UMTask *Parent);
+	void OnStart(UObject *Context);
+
+	/**
+	 * Invoked when the command is completed; regardless of the state.
+	 * Use this to do a 'final' cleanup for things.
+	 **/
+	UFUNCTION(BlueprintNativeEvent, Category = "MTasks")
+	void OnEnd();
 	
 	/** Poll this task to update the state  */
 	UFUNCTION(BlueprintNativeEvent, Category = "MTasks")

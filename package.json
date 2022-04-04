@@ -1,6 +1,6 @@
 {
   "name": "unreal-m-tasks",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Async tasks for unreal",
   "main": "index.js",
   "repository": {
