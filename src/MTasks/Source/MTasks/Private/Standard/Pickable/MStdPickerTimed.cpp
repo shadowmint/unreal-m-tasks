@@ -139,7 +139,7 @@ void UMStdPickerTimed::ScanForWorldActor()
 	auto DidMatch = false;
 	if (PlayerController->GetHitResultUnderCursorByChannel(TraceType, true, Result))
 	{
-		const auto Other = Result.Actor.Get();
+		const auto Other = Result.GetActor();
 		const auto IsCorrectType = Other->GetClass()->IsChildOf(PickActorType);
 		if (IsCorrectType && IMStdPickable::ImplementedBy(Other))
 		{

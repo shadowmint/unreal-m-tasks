@@ -2,14 +2,13 @@
 
 
 #include "Standard/Pickable/MStdPicker.h"
-
-#include <ppltasks.h>
-
 #include "Actors/MStdExecutor.h"
 #include "Standard/Pickable/MStdPickable.h"
 
-UMStdPicker* UMStdPicker::StdPicker(UObject* WorldContextObject, APlayerController* InPlayerController, ETraceTypeQuery InTraceType,
-                                    FName SelectAction, FName CancelAction, float InTimeout, TSubclassOf<AActor> InPickActorOfType)
+UMStdPicker* UMStdPicker::StdPicker(UObject* WorldContextObject, APlayerController* InPlayerController,
+                                    ETraceTypeQuery InTraceType,
+                                    FName SelectAction, FName CancelAction, float InTimeout,
+                                    TSubclassOf<AActor> InPickActorOfType)
 {
 	if (!InPlayerController)
 	{
@@ -33,7 +32,7 @@ UMStdPicker* UMStdPicker::StdPicker(UObject* WorldContextObject, APlayerControll
 	Instance->OnSelectBinding = FInputActionBinding(SelectAction, IE_Pressed);
 	Instance->OnSelectBinding.ActionDelegate.BindDelegate(Instance, &UMStdPicker::OnSelectPressed);
 	Instance->OnSelectBinding = Instance->PlayerController->InputComponent->AddActionBinding(Instance->OnSelectBinding);
-	
+
 	Instance->OnCancelBinding = FInputActionBinding(CancelAction, IE_Pressed);
 	Instance->OnCancelBinding.ActionDelegate.BindDelegate(Instance, &UMStdPicker::OnCancelPressed);
 	Instance->OnCancelBinding = Instance->PlayerController->InputComponent->AddActionBinding(Instance->OnCancelBinding);
@@ -95,7 +94,7 @@ void UMStdPicker::ScanForWorldActor()
 	auto DidMatch = false;
 	if (PlayerController->GetHitResultUnderCursorByChannel(TraceType, true, Result))
 	{
-		const auto Other = Result.Actor.Get();
+		const auto Other = Result.GetActor();
 		const auto IsCorrectType = Other->GetClass()->IsChildOf(PickActorType);
 		if (IsCorrectType && IMStdPickable::ImplementedBy(Other))
 		{
